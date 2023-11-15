@@ -14,10 +14,7 @@
 #define IMPAR 1
 #define NUMRANG 20
 
-int received_num; // Variable global para mantener el número recibido
-
-void par_handler(int signum);
-void impar_handler(int signum);
+int received_num;
 
 int main(int argc, char const *argv[])
 {
@@ -60,9 +57,6 @@ int main(int argc, char const *argv[])
     if (id == 0) {
         close(tubo[WRITE]);
 
-        signal(SIGUSR1, par_handler);
-        signal(SIGUSR2, impar_handler);
-
         while (read(tubo[READE], &received_num, sizeof(received_num)) > 0) {
             kill(getppid(), SIGUSR1);
         }
@@ -73,16 +67,4 @@ int main(int argc, char const *argv[])
     }
 
     return 0;
-}
-
-void par_handler(int signum) {
-    if (received_num % 2 == 0) {
-        printf("Soy hijo par. Número par: %d\n", received_num);
-    }
-}
-
-void impar_handler(int signum) {
-    if (received_num % 2 != 0) {
-        printf("Soy hijo impar. Número impar: %d\n", received_num);
-    }
 }
