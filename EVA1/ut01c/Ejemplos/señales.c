@@ -18,6 +18,8 @@ int main() {
 
     // Mantén el programa en ejecución para recibir la señal
     while (1) {
+        printf(".");
+        fflush(stdout);
         sleep(1);
     }
 
